@@ -1,7 +1,5 @@
 ![Terraform Plan](https://github.com/hatimabu/terraform-ci-cd-template/actions/workflows/terraform-plan.yml/badge.svg)
 
-![Terraform Apply](https://github.com/hatimabu/terraform-ci-cd-template/actions/workflows/terraform-apply.yml/badge.svg)
-
 # Terraform CI/CD Template
 
 A clean, reusable template for automating Terraform workflows using GitHub Actions.  
