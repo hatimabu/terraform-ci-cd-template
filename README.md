@@ -1,6 +1,6 @@
-![Terraform Plan](https://github.com/hatimabu/terraform-ci-cd-template/actions/workflows/terraform-plan.yml/badge.svg)
+![Terraform Plan](https://github.com/hatimabu/terraform-ci-cd-template/actions/workflows/terraform-plan.yml/badge.svg?branch=test-plan)
 
-![Terraform Apply](https://github.com/hatimabu/terraform-ci-cd-template/actions/workflows/terraform-apply.yml/badge.svg)
+![Terraform Apply](https://github.com/hatimabu/terraform-ci-cd-template/actions/workflows/terraform-apply.yml/badge.svg?branch=test-plan)
 
 # Terraform CI/CD Template
 
@@ -84,9 +84,11 @@ You can replace it with any Terraform configuration.
 
 ## 📌 Notes
 
-- No real cloud credentials are required unless you enable actual deployment  
-- This template is intentionally simple and safe  
+- **Demo template**: Uses mock AWS credentials for demonstration purposes only
+- **No real AWS account required**: All operations use dummy credentials
+- This template is intentionally simple and safe
 - Designed to highlight **CI/CD skills**, not cloud architecture
+- Green badges indicate successful workflow execution in demo mode
 
 ---
 

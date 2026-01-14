@@ -29,5 +29,5 @@ jobs:
         working-directory: infra
 
       - name: Terraform Plan
-        run: terraform plan -input=false
+        run: terraform plan
         working-directory: infra
