@@ -1,8 +1,8 @@
-![Terraform Plan](https://github.com/hatimabu/terraform-ci-cd-template/actions/workflows/terraform-plan.yml/badge.svg?branch=test-plan)
+![Terraform Plan](https://github.com/hatimabu/terraform-ci-cd-template/actions/workflows/terraform-plan.yml/badge.svg)
 
 # Terraform CI/CD Template
 
-A clean, reusable template for automating Terraform workflows using GitHub Actions.  
+A clean, reusable template for automating Terraform workflows using GitHub Actions.
 This project demonstrates best‑practice CI/CD patterns for Infrastructure‑as‑Code without requiring real cloud deployment.
 
 **CI/CD = a workflow that automatically checks, tests, and deploys code or infrastructure whenever changes are made.**
@@ -11,7 +11,7 @@ This project demonstrates best‑practice CI/CD patterns for Infrastructure‑as
 
 ## 🚀 Purpose
 
-This repository serves as a **cloud‑agnostic Terraform CI/CD template**.  
+This repository serves as a **cloud‑agnostic Terraform CI/CD template**.
 It focuses on automation, validation, and workflow structure — not on deploying real infrastructure.
 
 Use it as a starting point for:
@@ -59,16 +59,16 @@ It performs:
 - `terraform init`
 - `terraform apply -auto-approve`
 
-> In this template, the apply step is included for demonstration.  
+> In this template, the apply step is included for demonstration.
 > You can disable or modify it if you don’t want real deployments.
 
 ---
 
 ## 🧩 How to Use This Template
 
-1. Add your Terraform code inside the `infra/` directory  
-2. Customize or remove the apply workflow depending on your needs  
-3. Use pull requests to trigger automated validation and planning  
+1. Add your Terraform code inside the `infra/` directory
+2. Customize or remove the apply workflow depending on your needs
+3. Use pull requests to trigger automated validation and planning
 4. Extend the workflows with testing, linting, or notifications
 
 ---
@@ -93,5 +93,5 @@ You can replace it with any Terraform configuration for actual deployments.
 
 ## 📜 License
 
-This project is provided as a learning and portfolio template.  
+This project is provided as a learning and portfolio template.
 Feel free to modify and reuse it.
