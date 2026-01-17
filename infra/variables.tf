@@ -9,3 +9,21 @@ variable "bucket_name" {
   type        = string
   default     = "terraform-ci-cd-demo-bucket"
 }
+
+variable "instance_type" {
+  description = "EC2 instance type"
+  type        = string
+  default     = "t2.micro"
+}
+
+variable "ami_id" {
+  description = "AMI ID for the EC2 instance"
+  type        = string
+  default     = "ami-0abcdef1234567890" # Demo AMI ID
+}
+
+variable "instance_name" {
+  description = "Name tag for the EC2 instance"
+  type        = string
+  default     = "terraform-ci-cd-demo-instance"
+}

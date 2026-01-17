@@ -75,7 +75,7 @@ It performs:
 
 ## 🏗 Example Terraform (Included)
 
-The `infra/` folder contains a minimal example (an S3 bucket) purely for demonstration.  
+The `infra/` folder contains example infrastructure (S3 bucket and EC2 instance) purely for demonstration.
 You can replace it with any Terraform configuration.
 
 ---
