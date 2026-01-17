@@ -1,18 +1,19 @@
-output "bucket_name" {
-  value = aws_s3_bucket.demo.bucket
+output "generated_bucket_name" {
+  description = "Generated bucket name using random pet"
+  value       = "demo-${random_pet.bucket_name.id}"
 }
 
-output "instance_id" {
-  description = "ID of the EC2 instance"
-  value       = aws_instance.demo.id
+output "config_file_path" {
+  description = "Path to the generated infrastructure configuration file"
+  value       = local_file.infrastructure_config.filename
 }
 
-output "instance_public_ip" {
-  description = "Public IP address of the EC2 instance"
-  value       = aws_instance.demo.public_ip
+output "infrastructure_plan" {
+  description = "Infrastructure configuration as JSON"
+  value       = jsondecode(local_file.infrastructure_config.content)
 }
 
-output "instance_state" {
-  description = "Current state of the EC2 instance"
-  value       = aws_instance.demo.instance_state
+output "demo_mode" {
+  description = "Indicates this is running in demo mode"
+  value       = true
 }

@@ -1,0 +1,1 @@
+{"metadata":{"created_by":"terraform-ci-cd-template","demo_mode":true},"resources":{"ec2_instance":{"ami":"ami-demo-12345","name":"terraform-ci-cd-demo-instance","type":"t2.micro"},"s3_bucket":{"name":"demo-guided-tarpon","type":"storage"}}}

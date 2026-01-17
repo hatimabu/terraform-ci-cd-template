@@ -1,29 +1,23 @@
-variable "region" {
-  description = "AWS region to deploy resources"
-  type        = string
-  default     = "us-east-1"
-}
-
-variable "bucket_name" {
-  description = "Name of the S3 bucket"
-  type        = string
-  default     = "terraform-ci-cd-demo-bucket"
-}
-
 variable "instance_type" {
-  description = "EC2 instance type"
+  description = "Instance type specification (demo only)"
   type        = string
   default     = "t2.micro"
 }
 
 variable "ami_id" {
-  description = "AMI ID for the EC2 instance"
+  description = "AMI ID specification (demo only)"
   type        = string
-  default     = "ami-0abcdef1234567890" # Demo AMI ID
+  default     = "ami-demo-12345"
 }
 
 variable "instance_name" {
-  description = "Name tag for the EC2 instance"
+  description = "Name for the instance"
   type        = string
   default     = "terraform-ci-cd-demo-instance"
+}
+
+variable "config_file_path" {
+  description = "Path for the infrastructure configuration file"
+  type        = string
+  default     = "./infrastructure.json"
 }

@@ -75,18 +75,19 @@ It performs:
 
 ## 🏗 Example Terraform (Included)
 
-The `infra/` folder contains example infrastructure (S3 bucket and EC2 instance) purely for demonstration.
-You can replace it with any Terraform configuration.
+The `infra/` folder contains **provider-neutral** example infrastructure using local resources only.
+This demonstrates Terraform syntax and CI/CD workflows without requiring cloud provider access.
+You can replace it with any Terraform configuration for actual deployments.
 
 ---
 
 ## 📌 Notes
 
-- **Demo template**: Uses mock AWS credentials for demonstration purposes only
-- **No real AWS account required**: All operations use dummy credentials
-- This template is intentionally simple and safe
-- Designed to highlight **CI/CD skills**, not cloud architecture
-- Green badges indicate successful workflow execution in demo mode
+- **Provider-neutral**: Uses only local resources - no cloud provider required
+- **Zero cost**: No cloud resources created, perfect for demos and learning
+- **CI/CD focus**: Highlights automation and workflow skills, not cloud architecture
+- **Safe for any environment**: Can run anywhere Terraform is installed
+- Green badges indicate successful workflow execution
 
 ---
 
