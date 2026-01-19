@@ -1,4 +1,4 @@
-![Terraform Plan](https://github.com/hatimabu/terraform-ci-cd-template/actions/workflows/terraform-plan.yml/badge.svg)
+![Terraform Plan](https://github.com/hatimabu/terraform-ci-cd-template/actions/workflows/terraform-plan.yml/badge.svg) ![Security Scan](https://github.com/hatimabu/terraform-ci-cd-template/actions/workflows/security-scan.yml/badge.svg)
 
 # Terraform CI/CD Template
 
@@ -52,7 +52,19 @@ This ensures code is formatted, valid, and safe before merging.
 
 ---
 
-### **2. Main Branch → Terraform Apply**
+### **2. Security Scan**
+Runs on pull requests and pushes to `main`.
+
+It performs:
+- Security scanning using Checkov
+- Checks for AWS security best practices
+- Generates security reports and alerts
+
+This ensures infrastructure code follows security best practices.
+
+---
+
+### **3. Main Branch → Terraform Apply**
 Runs when changes are merged into `main`.
 
 It performs:
