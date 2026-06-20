@@ -123,18 +123,6 @@ The apply job is manual on purpose. This is safer than automatically applying ev
 
 ---
 
-## Successful Workflow Evidence
-
-### Terraform Plan Success
-
-![Terraform Plan workflow success](docs/assets/github-actions-terraform-plan-success.png)
-
-### Security Scan Success
-
-![Security Scan workflow success](docs/assets/github-actions-security-scan-success.png)
-
----
-
 ## Example Terraform
 
 The `infra/` folder contains demo Terraform code that:
@@ -166,7 +154,3 @@ This keeps the project zero-cost while still showing the Terraform workflow used
 - This repository can be expanded later with a real Azure or AWS example.
 
 ---
-
-## License
-
-This project is provided as a learning and portfolio template. Feel free to modify and reuse it.
