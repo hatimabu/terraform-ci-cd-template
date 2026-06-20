@@ -2,108 +2,171 @@
 
 # Terraform CI/CD Template
 
-A clean, reusable template for automating Terraform workflows using GitHub Actions.
-This project demonstrates best‑practice CI/CD patterns for Infrastructure‑as‑Code without requiring real cloud deployment.
+A reusable Terraform CI/CD lab using GitHub Actions.
 
-**CI/CD = a workflow that automatically checks, tests, and deploys code or infrastructure whenever changes are made.**
+This project demonstrates a safe Infrastructure as Code workflow: formatting, validation, planning, security scanning, and a manual apply job. The Terraform example uses local/demo resources only, so the pipeline can be tested without creating paid cloud infrastructure.
 
----
-
-## 🚀 Purpose
-
-This repository serves as a **cloud‑agnostic Terraform CI/CD template**.
-It focuses on automation, validation, and workflow structure — not on deploying real infrastructure.
-
-Use it as a starting point for:
-- Learning Terraform automation
-- Demonstrating DevOps skills in a portfolio
-- Bootstrapping real Terraform projects
-- Understanding safe IaC workflows
+**CI/CD** means a workflow automatically checks, tests, and optionally deploys code or infrastructure when changes are made.
 
 ---
 
-## 📁 Folder Structure
+## Purpose
 
-```
+This repository is a portfolio-friendly DevOps lab for learning and demonstrating Terraform automation.
+
+It focuses on:
+
+- Terraform workflow structure
+- Pull request validation
+- Security scanning for Infrastructure as Code
+- Manual deployment control
+- Clear documentation for cloud/support troubleshooting practice
+
+The included Terraform is intentionally provider-neutral. It uses the `random` and `local` providers to generate a sample infrastructure JSON file instead of deploying real cloud resources.
+
+---
+
+## Repository Structure
+
+```text
 terraform-ci-cd-template/
-├── infra/                    # Terraform configuration (example only)
-│   ├── main.tf
-│   ├── variables.tf
-│   └── outputs.tf
-└── .github/
-    └── workflows/           # CI/CD pipelines
-        ├── terraform-plan.yml
-        └── terraform-apply.yml
+|-- infra/
+|   |-- main.tf              # Demo Terraform resources
+|   |-- variables.tf         # Input variables
+|   |-- outputs.tf           # Terraform outputs
+|   `-- infrastructure.json  # Generated demo output
+|-- .github/
+|   `-- workflows/
+|       |-- terraform-plan.yml
+|       |-- terraform-apply.yml
+|       `-- security-scan.yml
+`-- docs/
+    `-- assets/
+        |-- github-actions-terraform-plan-success.png
+        `-- github-actions-security-scan-success.png
 ```
 
 ---
 
-## 🔧 Workflows
+## Workflow Architecture
 
-### **1. Pull Requests → Terraform Plan**
-Runs automatically when a pull request targets `main`.
+```mermaid
+flowchart TD
+    A["Developer updates Terraform code"] --> B["Open pull request to main"]
+    B --> C["Terraform Plan workflow"]
+    C --> C1["terraform fmt -check"]
+    C1 --> C2["terraform init"]
+    C2 --> C3["terraform validate"]
+    C3 --> C4["terraform plan"]
 
-It performs:
-- `terraform fmt -check`
-- `terraform validate`
-- `terraform plan`
+    B --> D["Security Scan workflow"]
+    D --> D1["Checkov scans Terraform files"]
 
-This ensures code is formatted, valid, and safe before merging.
-
----
-
-### **2. Security Scan**
-Runs on pull requests and pushes to `main`.
-
-It performs:
-- Security scanning using Checkov
-- Checks for AWS security best practices
-- Generates security reports and alerts
-
-This ensures infrastructure code follows security best practices.
+    C4 --> E["Review plan and checks"]
+    D1 --> E
+    E --> F["Merge approved changes"]
+    F --> G["Manual Terraform Apply workflow"]
+    G --> G1["terraform init"]
+    G1 --> G2["terraform apply -auto-approve"]
+```
 
 ---
 
-### **3. Main Branch → Terraform Apply**
-Runs when changes are merged into `main`.
+## GitHub Actions Workflows
 
-It performs:
-- `terraform init`
-- `terraform apply -auto-approve`
+### 1. Terraform Plan
 
-> In this template, the apply step is included for demonstration.
-> You can disable or modify it if you don’t want real deployments.
+File: `.github/workflows/terraform-plan.yml`
+
+Runs when a pull request targets `main`.
+
+Steps:
+
+- Checks out the repository
+- Sets up Terraform
+- Runs `terraform fmt -check`
+- Runs `terraform init`
+- Runs `terraform validate`
+- Runs `terraform plan`
+
+This protects the main branch by checking whether Terraform code is formatted, valid, and plannable before merge.
+
+### 2. Security Scan
+
+File: `.github/workflows/security-scan.yml`
+
+Runs on pull requests to `main` and pushes to `main`.
+
+Steps:
+
+- Checks out the repository
+- Runs Checkov against the Terraform code in `infra/`
+- Uses Terraform framework scanning
+- Currently filters for AWS-related Checkov checks as a demo security policy
+
+Because the current Terraform example is provider-neutral, this scan is mainly included to show where IaC security scanning fits in the pipeline. If this lab is expanded to Azure or AWS resources later, the Checkov policy filters should be updated to match the chosen cloud provider.
+
+### 3. Terraform Apply
+
+File: `.github/workflows/terraform-apply.yml`
+
+Runs manually with `workflow_dispatch`.
+
+Steps:
+
+- Checks out the repository
+- Sets up Terraform
+- Runs `terraform init`
+- Runs `terraform apply -auto-approve`
+
+The apply job is manual on purpose. This is safer than automatically applying every merge to `main`, especially for a learning lab or portfolio template that may later be connected to real cloud resources.
 
 ---
 
-## 🧩 How to Use This Template
+## Successful Workflow Evidence
 
-1. Add your Terraform code inside the `infra/` directory
-2. Customize or remove the apply workflow depending on your needs
-3. Use pull requests to trigger automated validation and planning
-4. Extend the workflows with testing, linting, or notifications
+### Terraform Plan Success
 
----
+![Terraform Plan workflow success](docs/assets/github-actions-terraform-plan-success.png)
 
-## 🏗 Example Terraform (Included)
+### Security Scan Success
 
-The `infra/` folder contains **provider-neutral** example infrastructure using local resources only.
-This demonstrates Terraform syntax and CI/CD workflows without requiring cloud provider access.
-You can replace it with any Terraform configuration for actual deployments.
+![Security Scan workflow success](docs/assets/github-actions-security-scan-success.png)
 
 ---
 
-## 📌 Notes
+## Example Terraform
 
-- **Provider-neutral**: Uses only local resources - no cloud provider required
-- **Zero cost**: No cloud resources created, perfect for demos and learning
-- **CI/CD focus**: Highlights automation and workflow skills, not cloud architecture
-- **Safe for any environment**: Can run anywhere Terraform is installed
-- Green badges indicate successful workflow execution
+The `infra/` folder contains demo Terraform code that:
+
+- Generates a random demo storage name using `random_pet`
+- Creates a local `infrastructure.json` file
+- Outputs generated values for inspection
+
+This keeps the project zero-cost while still showing the Terraform workflow used in real cloud projects.
 
 ---
 
-## 📜 License
+## How To Use This Template
 
-This project is provided as a learning and portfolio template.
-Feel free to modify and reuse it.
+1. Add or update Terraform code in the `infra/` directory.
+2. Open a pull request into `main`.
+3. Review the Terraform Plan and Security Scan workflow results.
+4. Merge only after checks pass.
+5. Run Terraform Apply manually if deployment is required.
+
+---
+
+## Notes
+
+- No cloud resources are created by the current demo Terraform code.
+- The project is safe to run locally or in GitHub Actions.
+- The apply workflow is manual by design.
+- Checkov is included to demonstrate IaC security scanning in CI/CD.
+- This repository can be expanded later with a real Azure or AWS example.
+
+---
+
+## License
+
+This project is provided as a learning and portfolio template. Feel free to modify and reuse it.
