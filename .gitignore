@@ -3,6 +3,9 @@
 *.tfstate
 *.tfstate.backup
 .terraform.lock.hcl
+tfplan
+tfplan.txt
+plan.json
 
 # OS generated files
 .DS_Store

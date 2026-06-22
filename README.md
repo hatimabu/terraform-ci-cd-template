@@ -58,11 +58,14 @@ flowchart TD
     C1 --> C2["terraform init"]
     C2 --> C3["terraform validate"]
     C3 --> C4["terraform plan"]
+    C4 --> C5["Upload plan artifact"]
+    C4 --> C6["Comment plan summary on PR"]
 
     B --> D["Security Scan workflow"]
     D --> D1["Checkov scans Terraform files"]
 
-    C4 --> E["Review plan and checks"]
+    C5 --> E["Review plan and checks"]
+    C6 --> E
     D1 --> E
     E --> F["Merge approved changes"]
     F --> G["Manual Terraform Apply workflow"]
@@ -87,7 +90,12 @@ Steps:
 - Runs `terraform fmt -check`
 - Runs `terraform init`
 - Runs `terraform validate`
-- Runs `terraform plan`
+- Runs `terraform plan -out=tfplan`
+- Saves readable plan output to `tfplan.txt`
+- Uploads the binary and text plan as a workflow artifact
+- Comments a summarized plan result on the pull request
+
+If the plan fails, the workflow still uploads and comments available troubleshooting output before failing the job.
 
 This protects the main branch by checking whether Terraform code is formatted, valid, and plannable before merge.
 
@@ -139,9 +147,23 @@ This keeps the project zero-cost while still showing the Terraform workflow used
 
 1. Add or update Terraform code in the `infra/` directory.
 2. Open a pull request into `main`.
-3. Review the Terraform Plan and Security Scan workflow results.
+3. Review the Terraform Plan comment, uploaded plan artifact, and Security Scan workflow results.
 4. Merge only after checks pass.
 5. Run Terraform Apply manually if deployment is required.
+
+---
+
+## Recommended Branch Protection
+
+For a real repository, protect the `main` branch with these checks:
+
+- Require pull requests before merging.
+- Require the Terraform Plan workflow to pass.
+- Require the Security Scan workflow to pass.
+- Require at least one reviewer approval.
+- Block force pushes to `main`.
+
+These controls make the lab closer to a real cloud support or DevOps workflow because infrastructure changes are reviewed before they can affect the main branch.
 
 ---
 
