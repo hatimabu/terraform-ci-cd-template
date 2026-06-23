@@ -8,6 +8,10 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  security-events: write
+
 jobs:
   security-scan:
     runs-on: ubuntu-latest
@@ -16,12 +20,50 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Run Checkov Security Scan
+      - name: Run Checkov Terraform Scan
+        id: checkov
         uses: bridgecrewio/checkov-action@v12
+        continue-on-error: true
         with:
           directory: infra/
           framework: terraform
-          output_format: cli
+          output_format: cli,json
           output_file_path: console,checkov-report.json
-          check: CKV_AWS_*,CKV2_AWS_*
-          skip_check: CKV_AWS_18,CKV_AWS_21,CKV_AWS_144  # Skip checks that require actual AWS resources
+
+      - name: Upload Checkov Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: checkov-report
+          path: checkov-report.json
+          if-no-files-found: warn
+
+      - name: Run Trivy IaC Scan
+        id: trivy
+        uses: aquasecurity/trivy-action@0.36.0
+        continue-on-error: true
+        with:
+          scan-type: config
+          scan-ref: infra/
+          format: sarif
+          output: trivy-iac-results.sarif
+          severity: HIGH,CRITICAL
+          exit-code: "1"
+
+      - name: Upload Trivy SARIF
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
+        with:
+          sarif_file: trivy-iac-results.sarif
+
+      - name: Upload Trivy Report
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: trivy-iac-report
+          path: trivy-iac-results.sarif
+          if-no-files-found: warn
+
+      - name: Fail if Security Scans Failed
+        if: steps.checkov.outcome == 'failure' || steps.trivy.outcome == 'failure'
+        run: exit 1

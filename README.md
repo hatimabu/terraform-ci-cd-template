@@ -40,6 +40,7 @@ terraform-ci-cd-template/
 |       |-- terraform-plan.yml
 |       |-- terraform-apply.yml
 |       `-- security-scan.yml
+|-- SECURITY.md              # Security controls and triage notes
 `-- docs/
     `-- assets/
         |-- github-actions-terraform-plan-success.png
@@ -63,10 +64,13 @@ flowchart TD
 
     B --> D["Security Scan workflow"]
     D --> D1["Checkov scans Terraform files"]
+    D --> D2["Trivy scans IaC misconfigurations"]
+    D1 --> D3["Upload security reports"]
+    D2 --> D3
 
     C5 --> E["Review plan and checks"]
     C6 --> E
-    D1 --> E
+    D3 --> E
     E --> F["Merge approved changes"]
     F --> G["Manual Terraform Apply workflow"]
     G --> G1["terraform init"]
@@ -109,10 +113,14 @@ Steps:
 
 - Checks out the repository
 - Runs Checkov against the Terraform code in `infra/`
-- Uses Terraform framework scanning
-- Currently filters for AWS-related Checkov checks as a demo security policy
+- Uploads the Checkov JSON report as a workflow artifact
+- Runs Trivy IaC scanning for high and critical misconfiguration risks
+- Uploads Trivy SARIF results to GitHub code scanning
+- Uploads the Trivy SARIF file as a workflow artifact
 
-Because the current Terraform example is provider-neutral, this scan is mainly included to show where IaC security scanning fits in the pipeline. If this lab is expanded to Azure or AWS resources later, the Checkov policy filters should be updated to match the chosen cloud provider.
+Because the current Terraform example is provider-neutral, these scans are mainly included to show where IaC security scanning fits in the pipeline. If this lab is expanded to Azure or AWS resources later, the scan results become more meaningful because real cloud resources will be checked for risky defaults.
+
+See `SECURITY.md` for the security controls, common IaC risks, and triage process.
 
 ### 3. Terraform Apply
 
@@ -147,7 +155,7 @@ This keeps the project zero-cost while still showing the Terraform workflow used
 
 1. Add or update Terraform code in the `infra/` directory.
 2. Open a pull request into `main`.
-3. Review the Terraform Plan comment, uploaded plan artifact, and Security Scan workflow results.
+3. Review the Terraform Plan comment, uploaded plan artifact, Security Scan workflow results, and security artifacts.
 4. Merge only after checks pass.
 5. Run Terraform Apply manually if deployment is required.
 
@@ -172,7 +180,7 @@ These controls make the lab closer to a real cloud support or DevOps workflow be
 - No cloud resources are created by the current demo Terraform code.
 - The project is safe to run locally or in GitHub Actions.
 - The apply workflow is manual by design.
-- Checkov is included to demonstrate IaC security scanning in CI/CD.
+- Checkov and Trivy are included to demonstrate IaC security scanning in CI/CD.
 - This repository can be expanded later with a real Azure or AWS example.
 
 ---
