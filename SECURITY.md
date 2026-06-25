@@ -1,6 +1,6 @@
 # Security Policy
 
-This repository is a Terraform CI/CD learning lab. The current Terraform code uses local/demo resources only, but the pipeline is structured the same way a real cloud Infrastructure as Code project would be reviewed.
+This repository is a Terraform CI/CD learning lab. The default `infra/` path uses local/demo resources only, while `examples/azure-basic/` contains a real Azure example that can be deployed after OpenID Connect is configured.
 
 ## Security Controls
 
@@ -12,10 +12,11 @@ The GitHub Actions pipeline includes:
 - Trivy config scanning for high and critical Infrastructure as Code risks.
 - Uploaded scan artifacts for review and troubleshooting.
 - Manual Terraform apply to avoid automatic infrastructure changes.
+- Azure OpenID Connect authentication for the real Azure workflow.
 
 ## Risks This Lab Is Designed To Catch
 
-When this template is expanded to real cloud resources, the security stage should help identify issues such as:
+For the Azure example and future cloud resources, the security stage should help identify issues such as:
 
 - Public storage exposure.
 - Overly permissive network rules.

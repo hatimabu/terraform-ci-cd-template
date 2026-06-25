@@ -25,7 +25,7 @@ jobs:
         uses: bridgecrewio/checkov-action@v12
         continue-on-error: true
         with:
-          directory: infra/
+          directory: .
           framework: terraform
           output_format: cli,json
           output_file_path: console,checkov-report.json
@@ -44,7 +44,7 @@ jobs:
         continue-on-error: true
         with:
           scan-type: config
-          scan-ref: infra/
+          scan-ref: .
           format: sarif
           output: trivy-iac-results.sarif
           severity: HIGH,CRITICAL
